@@ -1,5 +1,3 @@
-// models/hoot.js
-
 const mongoose = require("mongoose");
 
 const reflectionSchema = new mongoose.Schema(
@@ -66,5 +64,5 @@ reflection: [reflectionSchema]
   timestamps: true 
 });
 
-const Letter = mongoose.model('Letter', hootSchema);
+const Letter = mongoose.model('Letter', letterSchema);
 module.exports = Letter;

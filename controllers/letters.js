@@ -37,9 +37,9 @@ router.get('/:id', verifyToken, async (req,res) => {
 router.post("/", verifyToken, async (req, res) => {
  try {
     req.body.user = req.user._id;
-    const hoot = await Letter.create(req.body);
+    const letter = await Letter.create(req.body);
     letter._doc.user = req.user;
-    res.status(201).json(hoot);
+    res.status(201).json(letter);
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
