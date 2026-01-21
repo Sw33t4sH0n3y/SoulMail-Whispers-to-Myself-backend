@@ -1,135 +1,192 @@
-const express = require("express");
-const verifyToken = require("../middleware/verify-token.js");
-const letter = require("../models/letter.js");
-const router = express.Router();
+/**
+ * LETTERS CONTROLLER - The HTTP Handler for Letter Operations
+ *
+ * This controller receives HTTP requests,
+ * delegates the actual work to the letterService, and sends back responses.
+ *
+ * CONTROLLER RESPONSIBILITIES:
+ * 1. Extract data from HTTP request (req.body, req.params, req.user)
+ * 2. Call the appropriate service function
+ * 3. Convert service results to HTTP responses
+ * 4. Convert service errors to appropriate HTTP status codes
+ */
 
-// add routes here
-// GET all letters for logged in user
-router.get('/', verifyToken, async (req,res) => {
+const letterService = require('../services/letterService');
+
+// HTTP status code mappings
+
+const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  SERVER_ERROR: 500
+};
+
+//endpoint handlers
+
+/**
+ * GET /letters
+ * Retrieve all letters belonging to the logged-in user
+ */
+const getAllLetters = async (req, res) => {
   try {
-    const letters = await Letter.find({ user: req.user._id })
-    .populate('user')
-    .sort({createAt: -1 });
-    res.json(letters);
-  } catch (err) {
-    res.status(500).json({err: err.message});
+    const userId = req.user._id;
+    const letters = await letterService.getAllLetters(userId);
+    sendSuccess(res, HTTP_STATUS.OK, letters);
+  } catch (error) {
+    sendError(res, error);
   }
-});
+};
 
-// GET /letters/:id
-router.get('/:id', verifyToken, async (req,res) => {
+/**
+ * GET /letters/:id
+ * Retrieve a specific letter by ID
+ */
+const getLetter = async (req, res) => {
   try {
-    const letter = await Letter.findById(req.params.id).populate('user');
-
-    if (!letter) {
-      return res.status(404).json({ err: 'Letter not found' });
-    }
-    if (!letter.user._id.equals(req.user._id)) {
-      return res.status(403).json ({err: 'Unauthorized' });
-    }
-    res.json(letter);
-    } catch (err) {
-      res.status(500).json({ err: err.message });
+    const userId = req.user._id;
+    const letterId = req.params.id;
+    const letter = await letterService.getLetterById(userId, letterId);
+    sendSuccess(res, HTTP_STATUS.OK, letter);
+  } catch (error) {
+    sendError(res, error);
   }
-});
+};
 
-// POST /letters Create letter
-router.post("/", verifyToken, async (req, res) => {
- try {
-    req.body.user = req.user._id;
-    const hoot = await Letter.create(req.body);
-    letter._doc.user = req.user;
-    res.status(201).json(hoot);
-  } catch (err) {
-    res.status(500).json({ err: err.message });
-  }
-});
-
-// PUT /letters/:id  Update delivery date
-router.put('/:id', verifyToken, async (req,res) => {
+/**
+ * POST /letters
+ * Create a new letter
+ */
+const createLetter = async (req, res) => {
   try {
-    const letter = await Letter.findById(req.params.id);
-
-    if(!letter) {
-      return res.status(404).json({ err: 'Letter not found' });
-    }
-
-    if (!letter.user.equals(req.user._id)) {
-      return res.status(403).json ({ err: 'Unauthorized' });
-    }
-     const updatedLetter = await Letter.findByIdandUpdate(req.params.id,
-      {deliverAt: req.body.deliverAt },
-      { new: true }
-     ).populate('user');
-
-     res.json(updatedLetter);
-    } catch (err) {
-      res.status(500).json({ err: err.message });
-    }
-});
-
-// DELETE /letters/:id 
-router.delete('/:id', verifyToken, async (req,res) => {
-  try {
-    const letter = await Letter.findById(req.params.id);
-
-    if(!letter) {
-      return res.status(404).json({ err: 'Letter not found' });
-    }
-
-    if (!letter.user.equals(req.user._id)) {
-      return res.status(403).json ({ err: 'Unauthorized' });
-    }
-
-    await Letter.findByIdandDelete(req.params.id);
-    res.json({ message: 'letter deleted' });
-  } catch (err) {
-    res.status(500).json ({ err: err.message})
+    const userId = req.user._id;
+    const letterData = req.body;
+    const letter = await letterService.createLetter(userId, letterData);
+    sendSuccess(res, HTTP_STATUS.CREATED, letter);
+  } catch (error) {
+    sendError(res, error);
   }
-});
+};
 
-// POST /letters/:id/reflection
-router.post('/:id/reflection', verifyToken, async (req,res) => {
+/**
+ * PUT /letters/:id
+ * Update a letter's delivery date
+ */
+const updateLetterDeliveryDate = async (req, res) => {
   try {
-    const letter = await Letter.findById(req.params.id);
-
-    if(!letter) {
-      return res.status(404).json({ err: 'Letter not found' });
-    }
-
-    if (!letter.user.equals(req.user._id)) {
-      return res.status(403).json ({ err: 'Unauthorized' });
-    }
-
-    letter.reflection.push(req.body);
-    await letter.save();
-
-    res.status(201).json(letter);
-  } catch (err) {
-    res.status(500).json ({ err: err.message });
+    const userId = req.user._id;
+    const letterId = req.params.id;
+    const newDeliveryDate = req.body.deliverAt;
+    const letter = await letterService.updateLetterDeliveryDate(userId, letterId, newDeliveryDate);
+    sendSuccess(res, HTTP_STATUS.OK, letter);
+  } catch (error) {
+    sendError(res, error);
   }
-});
+};
 
-// DELETE /letters/:id/reflection/:reflectionid -We can remove dont remember if we said to keep or delete
-router.delete('/:id/reflection/:reflectionId', verifyToken, async (req,res) => {
+/**
+ * DELETE /letters/:id
+ * Delete a letter
+ */
+const deleteLetter = async (req, res) => {
   try {
-    const letter = await Letter.findById(req.params.id);
-
-    if(!letter) {
-      return res.status(404).json({ err: 'Letter not found' });
-    }
-
-    if (!letter.user.equals(req.user._id)) {
-      return res.status(403).json ({ err: 'Unauthorized' });
-    }
-
-    letter.reflection.pull({_id: req.params.reflectionId });
-    await letter.save()
-    
-    res.json(letter);
-  } catch (err) {
-    res.status(500).json({ err: err.message })
+    const userId = req.user._id;
+    const letterId = req.params.id;
+    const result = await letterService.deleteLetter(userId, letterId);
+    sendSuccess(res, HTTP_STATUS.OK, result);
+  } catch (error) {
+    sendError(res, error);
   }
-});
+};
 
-module.exports = router;
+/**
+ * POST /letters/:id/reflection
+ * Add a reflection to a delivered letter
+ */
+const addReflection = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const letterId = req.params.id;
+    const reflectionData = req.body;
+    const letter = await letterService.addReflection(userId, letterId, reflectionData);
+    sendSuccess(res, HTTP_STATUS.CREATED, letter);
+  } catch (error) {
+    sendError(res, error);
+  }
+};
+
+/**
+ * DELETE /letters/:id/reflection/:reflectionId
+ * Remove a reflection from a letter
+ */
+const deleteReflection = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const letterId = req.params.id;
+    const reflectionId = req.params.reflectionId;
+    const letter = await letterService.deleteReflection(userId, letterId, reflectionId);
+    sendSuccess(res, HTTP_STATUS.OK, letter);
+  } catch (error) {
+    sendError(res, error);
+  }
+};
+
+
+// response helpers
+
+/**
+ * Send a successful response with consistent format
+ */
+const sendSuccess = (res, statusCode, data) => {
+  res.status(statusCode).json({
+    success: true,
+    data
+  });
+};
+
+/**
+ * Send an error response with appropriate HTTP status code
+ * Maps service-level errors to HTTP status codes
+ */
+const sendError = (res, error) => {
+  const statusCode = mapErrorToStatusCode(error.message);
+  res.status(statusCode).json({
+    success: false,
+    error: error.message
+  });
+};
+
+/**
+ * Map error messages to appropriate HTTP status codes
+ */
+const mapErrorToStatusCode = (errorMessage) => {
+  if (errorMessage.includes('not found')) {
+    return HTTP_STATUS.NOT_FOUND;
+  }
+  if (errorMessage.includes('Unauthorized')) {
+    return HTTP_STATUS.FORBIDDEN;
+  }
+  if (errorMessage.includes('Cannot edit')) {
+    return HTTP_STATUS.FORBIDDEN;
+  }
+  if (errorMessage.includes('Can only add reflections')) {
+    return HTTP_STATUS.BAD_REQUEST;
+  }
+  return HTTP_STATUS.BAD_REQUEST;
+};
+
+
+// exports
+
+module.exports = {
+  getAllLetters,
+  getLetter,
+  createLetter,
+  updateLetterDeliveryDate,
+  deleteLetter,
+  addReflection,
+  deleteReflection
+};
