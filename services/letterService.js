@@ -276,20 +276,20 @@ const removeReflection = async (letter, reflectionId) => {
 // exports
 
 module.exports = {
-  // Chapter 1: Getting Letters
+  // Getting Letters
   getAllLetters: getAllLettersForUser,
   getLetterById,
 
-  // Chapter 2: Creating Letters
+  // Creating Letters
   createLetter: createNewLetter,
 
-  // Chapter 3: Updating Letters
+  // Updating Letters
   updateLetterDeliveryDate,
 
-  // Chapter 4: Deleting Letters
+  // Deleting Letters
   deleteLetter,
 
-  // Chapter 5: Managing Reflections
+  // Managing Reflections
   addReflection: addReflectionToLetter,
   deleteReflection: removeReflectionFromLetter
 };
