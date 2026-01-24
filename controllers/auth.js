@@ -28,7 +28,16 @@ const HTTP_STATUS = {
  */
 const signUp = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, passwordConf } = req.body;
+
+    // Add password confirmation validation
+    if (password !== passwordConf) {
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
+        success: false,
+        error: 'Passwords do not match'
+      });
+    }
+
     const { token } = await authService.signUp(username, password);
     sendSuccess(res, HTTP_STATUS.CREATED, { token });
   } catch (error) {

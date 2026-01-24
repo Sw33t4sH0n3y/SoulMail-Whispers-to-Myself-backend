@@ -12,6 +12,7 @@
  */
 
 const letterService = require('../services/letterService');
+const { DELIVERY_INTERVALS, INTERVAL_LABELS } = require('../utils/dateCalculator');
 
 // HTTP status code mappings
 
@@ -26,6 +27,25 @@ const HTTP_STATUS = {
 };
 
 //endpoint handlers
+
+/**
+ * GET /letters/delivery-options
+ *
+ * Returns the available delivery intervals so the frontend
+ * can present the user with their choices.
+ */
+const getDeliveryOptions = (req, res) => {
+  const options = Object.entries(DELIVERY_INTERVALS).map(([key, value]) => ({
+    id: value,
+    label: INTERVAL_LABELS[value],
+    requiresCustomDate: value === DELIVERY_INTERVALS.CUSTOM_DATE
+  }));
+
+  sendSuccess(res, HTTP_STATUS.OK, {
+    question: 'When do you want to get your letter?',
+    options
+  });
+};
 
 /**
  * GET /letters
@@ -182,6 +202,7 @@ const mapErrorToStatusCode = (errorMessage) => {
 // exports
 
 module.exports = {
+  getDeliveryOptions,
   getAllLetters,
   getLetter,
   createLetter,

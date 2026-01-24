@@ -3,6 +3,9 @@ const router = express.Router();
 const letterController = require('../controllers/letters');
 const verifyToken = require('../middleware/verify-token');
 
+// GET available delivery intervals (no auth required - public info)
+router.get('/delivery-options', letterController.getDeliveryOptions);
+
 // GET all letters for logged in user
 router.get('/', verifyToken, letterController.getAllLetters);
 

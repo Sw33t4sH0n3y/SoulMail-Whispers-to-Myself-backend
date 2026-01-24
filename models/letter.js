@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { VALID_INTERVALS } = require("../utils/dateCalculator");
 
 const reflectionSchema = new mongoose.Schema(
   {
@@ -12,8 +13,7 @@ const reflectionSchema = new mongoose.Schema(
       type: Date,
       default: Date.now
     }
-  },
-  { _id: false }
+  }
 );
 
 const letterSchema = new mongoose.Schema(
@@ -33,9 +33,10 @@ const letterSchema = new mongoose.Schema(
     mood: {
       type: String,
       enum: {
-        values: ['☺️', '😢', '😰', '🤩', '🙏', '😫'],
+        values: ['', '☺️', '😢', '😰', '🤩', '🙏', '😫'],
         message: '{VALUE} is not a valid mood'
-      }
+      },
+      required: false
     },
     weather: {
       type: String,
@@ -76,8 +77,11 @@ const letterSchema = new mongoose.Schema(
     },
     deliveryInterval: {
       type: String,
-      enum: ['1week', '2weeks', '1month', '6months', '1year', '5years', 'custom'],
-      required: true
+      enum: {
+        values: VALID_INTERVALS,
+        message: '{VALUE} is not a valid delivery interval. Choose from: ' + VALID_INTERVALS.join(', ')
+      },
+      required: [true, 'Please tell us when you want to receive your letter']
     },
     deliveredAt: {
       type: Date,
