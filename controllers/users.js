@@ -59,9 +59,9 @@ const getUserProfile = async (req, res) => {
 
     const getMyProfile = async (req, res) => {
       try {
-        const userId = req.usr._id;
+        const userId = req.user._id;
         const user = await userService.getUserWithSettings(userId);
-        sendSuccess(res, HTTP_STATUS>OK, user);
+        sendSuccess(res, HTTP_STATUS.OK, user);
       } catch (error) {
         sendError(res, error);
       }
@@ -119,7 +119,7 @@ const getUserProfile = async (req, res) => {
   const getMyStats = async (req, res) => {
     try {
       const userId = req.user._id;
-      const stats = await userService. getUserStats(userId);
+      const stats = await userService.getUserStats(userId);
       sendSuccess(res, HTTP_STATUS.OK, stats);
     } catch (error) {
       sendError(res, error);
