@@ -16,6 +16,38 @@ const reflectionSchema = new mongoose.Schema(
   }
 );
 
+const goalSchema = new mongoose. Schema(
+  {
+    text: {
+      type: String,
+      required: [true, 'Goal text is required'],
+      trim: true,
+      maxLength: [150, 'Goal cannot exceed 150 characters']
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'completed', 'inProgress', 'abandoned', 'carriedForward'],
+      default: 'pending'
+    },
+    reflection: {
+      type: String,
+      trim: true,
+      maxLength: [500, 'Goal reflection cannot exceed 500 characters']
+    },
+    carriedForwardTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Letter'
+    },
+    carriedForwardFrom: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Letter'
+    },
+    statusUpdatedAt: {
+      type: Date
+    }
+  }
+);
+
 const letterSchema = new mongoose.Schema(
   {
     user: {
@@ -63,18 +95,9 @@ const letterSchema = new mongoose.Schema(
       trim: true,
       maxLength: [5000, "Letter is too long (max 5000 chars)"]
     },
-    goal1: {
-      type: String,
-      trim: true
-    },
-    goal2: {
-      type: String,
-      trim: true
-    },
-    goal3: {
-      type: String,
-      trim: true
-    },
+
+    goals: [goalSchema],
+    
     deliveryInterval: {
       type: String,
       enum: {

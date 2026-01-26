@@ -121,6 +121,58 @@ const deleteReflection = asyncHandler(async (req, res) => {
   sendSuccess(res, HTTP_STATUS.OK, letter);
 });
 
+/**
+ * PUT /letters/:id/goals/:goalId/status
+ * Update goal status
+ */
+const updateGoalStatus = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const letterId = req.params.id;
+    const goalId = req.params.goalId;
+    const statusData = req.body;
+
+    const letter = await letterService.updateGoalStatus(userId, letterId, goalId, statusData);
+    sendSuccess(res, HTTP_STATUS.OK, letter);
+  } catch (error) {
+    sendError(res, error);
+  }
+};
+/**
+ * POST /letters/:id/goals/:goalId/carry-forward
+ * Carry goal to new letter
+ */
+const carryGoalForward = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const oldLetterId = req.params.id;
+    const goalId = req.params.goalId;
+    const { newLetterId } = req.body;
+
+    const result = await letterService.carryGoalForward(userId, oldLetterId, goalId, newLetterId);
+    sendSuccess(res, HTTP_STATUS.OK, result);
+  } catch (error) {
+    sendError(res, error);
+  }
+};
+
+/**
+ * PUT /letters/:id/goals/:goalId/reflection
+ * Add reflection to a goal
+ */
+const addGoalReflection = async (req, res) => {
+  try{
+    const userId = req.user._id;
+    const letterId = req.params.id;
+    const goalId = req.params.goalId;
+    const { reflection } = req.body;
+
+    const letter = await letterService.addGoalReflection(userId, letterId, goalId, reflection);
+    sendSuccess(res, HTTP_STATUS.OK, letter);
+} catch (error) {
+    sendError(res, error);
+  }
+};
 
 // response helpers
 
@@ -145,5 +197,8 @@ module.exports = {
   updateLetterDeliveryDate,
   deleteLetter,
   addReflection,
-  deleteReflection
+  deleteReflection,
+  updateGoalStatus,
+  carryGoalForward,
+  addGoalReflection
 };

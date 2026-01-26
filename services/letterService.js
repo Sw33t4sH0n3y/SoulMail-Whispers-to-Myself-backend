@@ -8,12 +8,14 @@
  */
 
 const Letter = require('../models/letter');
+const userService = require('./userService');
 const { DELIVERY_INTERVALS } = require('../utils/dateCalculator');
 const {
   NotFoundError,
   ForbiddenError,
   ValidationError
 } = require('../middleware/errorHandler');
+
 
 /**
  * GET ALL LETTERS FOR A USER
@@ -60,7 +62,9 @@ const createNewLetter = async (userId, letterData) => {
   // Step 3: Load the user details onto the letter
   const letterWithUser = await attachUserToLetter(newLetter);
 
-  // Step 4: Return the complete letter
+  await updateUserStatsAfterLetterCreated(userId);
+
+  // Step 5: Return the complete letter
   return letterWithUser;
 };
 
@@ -122,7 +126,9 @@ const addReflectionToLetter = async (userId, letterId, reflectionData) => {
   // Step 4: Add the reflection to the letter
   const updatedLetter = await appendReflection(letter, reflectionData);
 
-  // Step 5: Return the updated letter
+  await updateUserStatsAfterReflectionAdded(userId);
+
+  // Step 6: Return the updated letter
   return updatedLetter;
 };
 
@@ -144,6 +150,84 @@ const removeReflectionFromLetter = async (userId, letterId, reflectionId) => {
   return updatedLetter;
 };
 
+/**
+ * MANAGING GOALS
+ * User UPDATE status of a gaol(completed, inprogress, abandoned, carriedForward)
+ */
+
+const updateGoalStatus = async (userId, letterId, goalId, statusData) => {
+  const letter = await findLetterOrFail(letterId);
+  verifyUserOwnsLetter(letter, userId);
+  ensureLetterIsDelivered(letter);
+
+  const goal = letter.goals.id(goalId);
+  if (!goal) {
+    throw new Error('Goal not found');
+  }
+  goal.status = statusData.status;
+  goal.statusUpdateAt = new Date();
+
+  if (statusData.reflection) {
+    goal.reflection =statusData.reflection;
+  }
+  await letter.save();
+
+  if (statusData.status === 'accomplished') {
+    await updatUserStatusAfterGoalAccomplished(userId);
+  }
+  return letter;
+};
+
+/**
+ * CARRY GOAL FORWARD
+ * Move to a new letter
+ */
+const carryGoalForward = async (userId, oldLetterId, goalId, newLetterId) => {
+  const oldLetter = await findLetterOrFail(oldLetterId);
+  verifyUserOwnsLetter(oldLetter,userId);
+  
+  const newLetter = await findLetterOrFail(newLetterId);
+  verifyUserOwnsLetter(newLetter, userId);
+
+  const goal = oldLetter.goals.id(goalId);
+  if (!goal) {
+    throw new Error('Goal not found');
+  }
+
+  newLetter.goals.push({
+    text: goal.text,
+    status: 'pending',
+    carriedFowardFrom: oldLetterId
+  });
+  await newLetter.save();
+
+  goal.status = 'carriedForward';
+  goal.carriedForwardTo = newLetterId;
+  goal.statusUpdatedAt = new Date();
+  await oldLetter.save();
+
+  return { oldLetter, newLetter };
+};
+
+/**
+ * ADD GOAL REFLECTION
+ *  Thoughts why goal wasn't accomplished
+ */
+const addGoalReflection = async (userId, letterId, goalId, reflection) => {
+  const letter = await findLetterOrFail(letterId);
+  verifyUserOwnsLetter(letter, userId);
+  ensureLetterIsDelivered(letter);
+
+  const goal =letter.goals.id(goalId);
+  if (!goal) {
+    throw new Error('Goal not found');
+  }
+
+  goal.reflection = reflection;
+  await letter.save();
+
+  return letter;
+};
 // --- Database Query Helpers ---
 
 /**
@@ -289,6 +373,45 @@ const removeReflection = async (letter, reflectionId) => {
   return letter;
 };
 
+/**
+ * Update stats after creating letter
+ * increments total Lettters and update streak
+ */
+
+const updateUserStatsAfterLetterCreated = async (userId) => {
+  try {
+    await userService.updateUserStats(userId, {
+      incrementLetters: true,
+      updateStreak: true
+    });
+  } catch (error) {
+    console.error('Failed to update user stats after letter creation:', error.message);
+  }
+};
+
+/**
+ * Update user stats after addin a reflection
+ * Increments totalReflections
+ */
+const updateUserStatsAfterReflectionAdded = async (userId) => {
+  try {
+    await userService.updateUserStats(userId, {
+      incrementsReflections: true
+    });
+  } catch (error) {
+    console.error('Failed to update user stats after reflection:', error.message);
+  }
+};
+
+const updateUserStatsAfterGoalAccomplished = async (userId) => {
+  try {
+    await userService.updateUserStats(userId, {
+      incrementGoalAccomplished: true
+    });
+  } catch (error) {
+    console.error('Failed to update user stats after goal accomplished:', error.message);
+  }
+};
 
 // exports
 
@@ -308,5 +431,9 @@ module.exports = {
 
   // Managing Reflections
   addReflection: addReflectionToLetter,
-  deleteReflection: removeReflectionFromLetter
+  deleteReflection: removeReflectionFromLetter,
+
+  updateGoalStatus,
+  carryGoalForward,
+  addGoalReflection,
 };

@@ -52,7 +52,79 @@ const getUserProfile = async (req, res) => {
     sendError(res, error);
   }
 };
+/** 
+* GET /users/profile
+* Retrieve logged in user's pofile with settings and stats
+*/
 
+    const getMyProfile = async (req, res) => {
+      try {
+        const userId = req.user._id;
+        const user = await userService.getUserWithSettings(userId);
+        sendSuccess(res, HTTP_STATUS.OK, user);
+      } catch (error) {
+        sendError(res, error);
+      }
+    };
+
+/**
+ * PUT/users/profile
+ * update the logged inusers profile (name, birthday)
+ */
+    const updateMyProfile = async (req, res) => {
+      try {
+        const userId = req.user._id;
+        const { name, birthday } = req.body
+        
+        if(!name && !birthday) {
+          return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            success: false,
+            error: 'Please include name or birthday to update'
+          });
+        }
+        const updatedUser = await userService.updateProfile(userId, { name, birthday });
+        sendSuccess(res, HTTP_STATUS.OK, updatedUser);
+      } catch (error) {
+        sendError(res, error);
+      }
+    };
+
+    /**
+     * PUT /users/settings
+     * Update the looged in users celebration settings
+     */
+      const updateSettings = async (req, res) => {
+        try {
+        const userId = req.user._id;
+        const { settings } = req.body
+        
+        if(!settings) {
+          return res.status(HTTP_STATUS.BAD_REQUEST).json({
+            success: false,
+            error: 'Please include settings to update'
+          });        
+        }
+        const updatedUser = await userService.updateSettings(userId, settings);
+        sendSuccess(res, HTTP_STATUS.OK, updatedUser);
+      } catch (error) {
+        sendError(res, error);
+      }
+    };
+
+  /**
+   * GET /users/stats
+   * Retrieve logged in users stats for celebration checks
+   */
+
+  const getMyStats = async (req, res) => {
+    try {
+      const userId = req.user._id;
+      const stats = await userService.getUserStats(userId);
+      sendSuccess(res, HTTP_STATUS.OK, stats);
+    } catch (error) {
+      sendError(res, error);
+    }
+  };
 
 // response helpers
 /**
@@ -100,5 +172,9 @@ const mapErrorToStatusCode = (errorMessage) => {
 // exports
 module.exports = {
   getAllUsers,
-  getUserProfile
+  getUserProfile,
+  getMyProfile,
+  updateMyProfile,
+  updateSettings,
+  getMyStats
 };

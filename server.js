@@ -8,7 +8,7 @@ const cors = require('cors');
 const logger = require('morgan');
 
 const authRouter = require('./routes/auth');
-const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/users')
 const lettersRouter = require('./routes/letters');
 const { errorHandler } = require('./middleware/errorHandler');
 
