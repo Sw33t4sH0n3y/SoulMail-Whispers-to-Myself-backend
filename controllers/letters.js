@@ -81,7 +81,7 @@ const createLetter = asyncHandler(async (req, res) => {
 const updateLetterDeliveryDate = asyncHandler(async (req, res) => {
   const userId = req.user._id;
   const letterId = req.params.id;
-  const newDeliveryDate = req.body.deliverAt;
+  const newDeliveryDate = req.body.deliveredAt;
   const letter = await letterService.updateLetterDeliveryDate(userId, letterId, newDeliveryDate);
   sendSuccess(res, HTTP_STATUS.OK, letter);
 });

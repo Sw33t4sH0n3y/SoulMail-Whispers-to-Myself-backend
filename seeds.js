@@ -44,7 +44,7 @@ const sampleUsers = [
   },
   {
     username: 'charlie',
-    password: 'Charlie789',
+    password: 'Charlie789i',
     name: 'Charlie Brown',
     email: 'charlie@example.com'
   }

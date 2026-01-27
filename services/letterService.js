@@ -165,7 +165,7 @@ const updateGoalStatus = async (userId, letterId, goalId, statusData) => {
     throw new Error('Goal not found');
   }
   goal.status = statusData.status;
-  goal.statusUpdateAt = new Date();
+  goal.statusUpdatedAt = new Date();
 
   if (statusData.reflection) {
     goal.reflection =statusData.reflection;
@@ -173,7 +173,7 @@ const updateGoalStatus = async (userId, letterId, goalId, statusData) => {
   await letter.save();
 
   if (statusData.status === 'accomplished') {
-    await updatUserStatusAfterGoalAccomplished(userId);
+    await updateUserStatusAfterGoalAccomplished(userId);
   }
   return letter;
 };
@@ -270,11 +270,29 @@ const removeLetterFromDatabase = async (letterId) => {
  * Update the delivery date of a letter
  */
 const updateDeliveryDate = async (letterId, newDate) => {
-  return await Letter.findByIdAndUpdate(
-    letterId,
-    { deliveredAt: newDate },
-    { new: true }
-  ).populate('user');
+  const letter = await Letter.findById(letterId);
+
+  if (!letter) {
+    throw new NotFoundError('Letter not found');
+  }
+  letter.deliveredAt = new Date(newDate);
+
+// console.log('New deliveredAt:', letter.deliveredAt);
+// const tomorrow = newDate;
+// tomorrow.setHours(tomorrow.getHours + 24);
+// console.log('Tomorrow(24h from now):', tomorrow);
+// console.log('Is new date >= tomorrow', letter.deliveredAt >= tomorrow);
+
+try {
+  await letter.save();
+  console.log('Save successful!');
+} catch (error) {
+  console.log('Save failed', error.message);
+  throw error;
+}
+
+  await letter.populate('user');
+  return letter;
 };
 
 // --- Data Preparation Helpers ---
