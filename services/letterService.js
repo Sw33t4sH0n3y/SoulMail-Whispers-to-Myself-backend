@@ -165,7 +165,7 @@ const updateGoalStatus = async (userId, letterId, goalId, statusData) => {
     throw new Error('Goal not found');
   }
   goal.status = statusData.status;
-  goal.statusUpdateAt = new Date();
+  goal.statusUpdatedAt = new Date();
 
   if (statusData.reflection) {
     goal.reflection =statusData.reflection;
@@ -173,7 +173,7 @@ const updateGoalStatus = async (userId, letterId, goalId, statusData) => {
   await letter.save();
 
   if (statusData.status === 'accomplished') {
-    await updatUserStatusAfterGoalAccomplished(userId);
+    await updateUserStatusAfterGoalAccomplished(userId);
   }
   return letter;
 };
@@ -272,8 +272,8 @@ const removeLetterFromDatabase = async (letterId) => {
 const updateDeliveryDate = async (letterId, newDate) => {
   return await Letter.findByIdAndUpdate(
     letterId,
-    { deliveredAt: newDate },
-    { new: true }
+    { deliveredAt:new Date(newDate) },
+    { new: true, runValidators: true }
   ).populate('user');
 };
 
