@@ -21,6 +21,12 @@ const userSchema = new mongoose.Schema({
       type: Date
      },
      settings: {
+      readingDirection: {
+        type: String,
+        enum: ['ltr', 'rtl'],
+        default: 'ltr'
+      },
+
       celebrationsEnabled: {
         type: Boolean,
         default: true
