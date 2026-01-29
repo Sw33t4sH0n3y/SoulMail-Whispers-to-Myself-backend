@@ -81,6 +81,24 @@ const letterSchema = new mongoose.Schema(
       type: String,
       trim: true
     },
+    song: {
+      trackName: {
+        type: String,
+        trim: true
+      },
+      artistName: {
+        type: String,
+        trim: true
+      },
+      artworkUrl: {
+        type: String,
+        trim: true
+      },
+      previewUrl: {
+        type: String,
+        trim: true
+      }
+    },
     topHeadLine: {
       type: String,
       trim: true

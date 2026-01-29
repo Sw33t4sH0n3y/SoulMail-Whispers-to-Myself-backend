@@ -250,6 +250,12 @@ const seedDatabase = async () => {
       weather: 'Sunny',
       temperature: 72,
       currentSong: 'Good as Hell - Lizzo',
+      song: {
+        trackName: 'Good as Hell',
+        artistName: 'Lizzo',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/7f/d4/43/7fd443a8-861d-dd70-27a1-f23e221883dc/075679905956.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/89/6c/a2/896ca254-3673-f66d-261c-30644eb5004a/mzaf_12055454568932010560.plus.aac.p.m4a'
+      },
       topHeadLine: 'New Year, New Goals',
       location: 'Home Office',
       deliveryInterval: '1month',
@@ -292,6 +298,12 @@ const seedDatabase = async () => {
       weather: 'Cloudy',
       temperature: 68,
       currentSong: 'Don\'t Give Up - Peter Gabriel',
+      song: {
+        trackName: 'Don\'t Give Up (feat. Kate Bush)',
+        artistName: 'Peter Gabriel',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/29/d7/7d/29d77d60-24b8-f45b-936f-d8cf3ce52d8d/884108003503.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/66/f5/8c/66f58c1f-0b7a-bbe0-d024-f7de51305d85/mzaf_12366906422696645368.plus.aac.p.m4a'
+      },
       topHeadLine: 'Tech Industry Booming',
       location: 'Workspace',
       deliveryInterval: '1month',
@@ -315,6 +327,12 @@ const seedDatabase = async () => {
       weather: 'Stormy',
       temperature: 60,
       currentSong: 'Breathe Me - Sia',
+      song: {
+        trackName: 'Breathe Me',
+        artistName: 'Sia',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/68/fd/a8/68fda820-dbb9-d9d1-3c81-c9822e43e4fd/00094634810357.rgb.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/31/8a/cb/318acbb2-3fd1-3456-8b75-259ade2897c2/mzaf_4431027103322451782.plus.aac.p.m4a'
+      },
       topHeadLine: 'Mental Health Awareness Week',
       location: 'Bedroom',
       deliveryInterval: '1week',
@@ -339,6 +357,12 @@ const seedDatabase = async () => {
       weather: 'Rainy',
       temperature: 55,
       currentSong: 'Sanctuary - Joji',
+      song: {
+        trackName: 'Sanctuary',
+        artistName: 'Joji',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/91/7c/2b/917c2ba3-c97c-2807-2c18-b7794ebe5310/190296846489.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/31/a5/99/31a599de-751e-e081-8b68-68853fd8c9db/mzaf_17586077395060881000.plus.aac.p.m4a'
+      },
       topHeadLine: 'Economy Improving',
       location: 'Mountain Trail',
       deliveryInterval: '1week',
@@ -362,6 +386,12 @@ const seedDatabase = async () => {
       weather: 'Partly Cloudy',
       temperature: 65,
       currentSong: 'Here Comes the Sun - The Beatles',
+      song: {
+        trackName: 'Here Comes the Sun',
+        artistName: 'The Beatles',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/df/db/61/dfdb615d-47f8-06e9-9533-b96daccc029f/18UMGIM31076.rgb.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/e7/bf/a0/e7bfa041-6e35-be4e-276e-df489781b5d4/mzaf_1668350712755343495.plus.aac.p.m4a'
+      },
       topHeadLine: 'Spring Has Arrived',
       location: 'Park Bench',
       deliveryInterval: 'custom',
@@ -388,7 +418,13 @@ const seedDatabase = async () => {
       mood: '🤩',
       weather: 'Sunny',
       temperature: 75,
-      currentSong: 'Walking on Sunshine - Katrina & The Waves',
+      currentSong: 'Walking On Sunshine - Katrina and the Waves',
+      song: {
+        trackName: 'Walking On Sunshine',
+        artistName: 'Katrina and the Waves',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/cc/0b/bd/cc0bbd86-f930-2f01-1e7d-47574fc36723/13ULAIM49572.rgb.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/25/8e/a1/258ea10c-5a35-d63e-54e2-0b2c01b87b9e/mzaf_14823141143295616814.plus.aac.p.m4a'
+      },
       topHeadLine: 'AI Revolution Continues',
       location: 'Office',
       deliveryInterval: '6months',
@@ -411,7 +447,13 @@ const seedDatabase = async () => {
       mood: '☺️',
       weather: 'Clear',
       temperature: 70,
-      currentSong: 'All the Stars - Kendrick Lamar',
+      currentSong: 'All The Stars - Kendrick Lamar, SZA',
+      song: {
+        trackName: 'All The Stars',
+        artistName: 'Kendrick Lamar, SZA',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music112/v4/4d/16/55/4d165549-3d11-86dc-fcbf-be7fe0bcadfb/18UMGIM00002.rgb.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/ea/8b/2c/ea8b2cf4-95f2-b0b3-ffc5-10f4611bf98f/mzaf_6758805407695014001.plus.aac.p.m4a'
+      },
       topHeadLine: 'Education Innovation Awards',
       location: 'Tech Conference',
       deliveryInterval: '1year',
@@ -438,7 +480,13 @@ const seedDatabase = async () => {
       mood: '😫',
       weather: 'Overcast',
       temperature: 62,
-      currentSong: 'Tired - Beabadoobee',
+      currentSong: 'The Perfect Pair - beabadoobee',
+      song: {
+        trackName: 'The Perfect Pair',
+        artistName: 'beabadoobee',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/39/cb/28/39cb28c2-f48d-5e69-1469-592a7ac1dd11/192641938047_Cover.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/5c/b1/2e/5cb12e2a-0591-cfe3-58e1-397522db385e/mzaf_17061270472463035816.plus.aac.p.m4a'
+      },
       topHeadLine: 'Workplace Wellness Initiatives',
       location: 'Home',
       deliveryInterval: '6months',
@@ -474,7 +522,13 @@ const seedDatabase = async () => {
       mood: '🙏',
       weather: 'Windy',
       temperature: 65,
-      currentSong: 'Celebration - Kool & The Gang',
+      currentSong: 'Celebration (Single Version) - Kool & The Gang',
+      song: {
+        trackName: 'Celebration (Single Version)',
+        artistName: 'Kool & The Gang',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/ad/28/93/ad2893b3-364e-70d4-96df-e991092fc562/06UMGIM01158.rgb.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/f5/87/b1/f587b10e-c15d-f0fb-89f4-f1933b7bf130/mzaf_1574793224397530269.plus.aac.p.m4a'
+      },
       topHeadLine: 'Local Team Wins Championship',
       location: 'Downtown Cafe',
       deliveryInterval: '1week',
@@ -509,6 +563,12 @@ const seedDatabase = async () => {
       weather: 'Sunny',
       temperature: 78,
       currentSong: 'Eye of the Tiger - Survivor',
+      song: {
+        trackName: 'Eye of the Tiger',
+        artistName: 'Survivor',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/f9/02/8f/f9028f63-7a55-235e-f789-1e8946430fa2/614223201122.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/fe/fa/9e/fefa9edd-c023-4d1c-1012-08bfb0ec69e6/mzaf_4651653238471209843.plus.aac.p.m4a'
+      },
       topHeadLine: 'Startup Funding Hits Record High',
       location: 'Co-working Space',
       deliveryInterval: '1year',
@@ -533,7 +593,13 @@ const seedDatabase = async () => {
       mood: '☺️',
       weather: 'Sunny',
       temperature: 70,
-      currentSong: 'Three Little Birds - Bob Marley',
+      currentSong: 'Three Little Birds - Bob Marley & The Wailers',
+      song: {
+        trackName: 'Three Little Birds',
+        artistName: 'Bob Marley & The Wailers',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/3c/c2/0d/3cc20dcc-8f4e-f060-36dd-7de52a7ec8fe/12UMGIM14712.rgb.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/58/a7/97/58a7977f-66a0-e80b-b3a5-e810cdf41cf5/mzaf_8691301290079134697.plus.aac.p.m4a'
+      },
       topHeadLine: 'Happiness Study Released',
       location: 'Coffee Shop',
       deliveryInterval: '1month',
@@ -560,6 +626,12 @@ const seedDatabase = async () => {
       weather: 'Cold',
       temperature: 45,
       currentSong: 'Let It Be - The Beatles',
+      song: {
+        trackName: 'Let It Be',
+        artistName: 'The Beatles',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/ae/98/4c/ae984c7a-cd06-a7cd-e8bf-32cb15ba698d/00602567705475.rgb.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/0f/f7/e1/0ff7e145-6be6-4341-4fa1-32999d20707f/mzaf_15493778815944217662.plus.aac.p.m4a'
+      },
       topHeadLine: 'Holiday Shopping Season Begins',
       location: 'Home',
       deliveryInterval: 'custom',
@@ -583,7 +655,13 @@ const seedDatabase = async () => {
       mood: '😫',
       weather: 'Rainy',
       temperature: 58,
-      currentSong: 'Stressed Out - Twenty One Pilots',
+      currentSong: 'Stressed Out - twenty one pilots',
+      song: {
+        trackName: 'Stressed Out',
+        artistName: 'twenty one pilots',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/8e/e2/89/8ee28904-0821-610d-5011-a61845f62756/075679926951.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/a9/74/e8/a974e8f2-0693-9371-bb6c-87047a486254/mzaf_1898989387861959316.plus.aac.p.m4a'
+      },
       topHeadLine: 'Workplace Stress on the Rise',
       location: 'Office',
       deliveryInterval: '1month',
@@ -611,6 +689,12 @@ const seedDatabase = async () => {
       weather: 'Clear',
       temperature: 72,
       currentSong: 'Changes - David Bowie',
+      song: {
+        trackName: 'Changes',
+        artistName: 'David Bowie',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/f0/b9/68/f0b9680e-b028-b3d6-f793-7c268256499a/825646286034.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/3b/a8/19/3ba81905-f12c-299c-0efd-fcfe43558c22/mzaf_15463370320544172076.plus.aac.p.m4a'
+      },
       topHeadLine: 'Career Transitions Becoming More Common',
       location: 'Library',
       deliveryInterval: '6months',
@@ -634,6 +718,12 @@ const seedDatabase = async () => {
       weather: 'Foggy',
       temperature: 55,
       currentSong: 'Homeward Bound - Simon & Garfunkel',
+      song: {
+        trackName: 'Homeward Bound',
+        artistName: 'Simon & Garfunkel',
+        artworkUrl: 'https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/06/f4/d2/06f4d208-642e-75c0-d905-1ac98e7d441c/886447797075.jpg/100x100bb.jpg',
+        previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/d4/5a/c1/d45ac181-b72c-7deb-e9f8-b0c7a3e89a8b/mzaf_5832581675078762687.plus.aac.p.m4a'
+      },
       topHeadLine: 'Travel Restrictions Eased',
       location: 'Apartment',
       deliveryInterval: '1week',
@@ -661,6 +751,7 @@ const seedDatabase = async () => {
     console.log('  • All goal statuses: pending, completed, inProgress, abandoned, carriedForward');
     console.log('  • User settings: varied celebration toggles');
     console.log('  • Birthdays: 5 users with birthdays set');
+    console.log('  • Songs: All letters include iTunes song metadata with audio preview URLs');
     console.log('\n🔑 Test Credentials:');
     sampleUsers.forEach(user => {
       console.log(`  • ${user.username} / ${user.password}`);
