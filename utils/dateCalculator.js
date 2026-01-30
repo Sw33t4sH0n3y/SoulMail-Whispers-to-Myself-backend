@@ -38,6 +38,7 @@ const calculateFutureDate = (interval, customDate) => {
   const today = new Date();
 
   const deliveryDateCalculators = {
+    // evaluate the expression inside the brackets and use the result as the property name (key)
     // "In a week" - A quick check-in with yourself
     [DELIVERY_INTERVALS.IN_A_WEEK]: () => {
       const deliveryDate = new Date(today);
