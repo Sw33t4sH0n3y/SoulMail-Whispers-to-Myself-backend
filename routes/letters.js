@@ -25,7 +25,13 @@ router.put ('/:id/goals/:goalId/status', verifyToken, letterController.updateGoa
 router.post('/:id/goals/:goalId/carry-forward', verifyToken, letterController.carryGoalForward);
 
 //PUT add reflection to a Goal
-router.put('/:id/goals/:goalID/reflection', verifyToken, letterController.addGoalReflection);
+router.put('/:id/goals/:goalId/reflection', verifyToken, letterController.addGoalReflection);
+
+// POST add overlay drawing to a letter
+router.post('/:id/overlay-drawing', verifyToken, letterController.addOverlayDrawing);
+
+// DELETE drawing from a letter
+router.delete('/:id/drawing', verifyToken, letterController.deleteDrawing);
 
 // GET a specific letter
 router.get('/:id', verifyToken, letterController.getLetter);

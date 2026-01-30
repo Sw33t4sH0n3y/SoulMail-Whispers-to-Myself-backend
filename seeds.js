@@ -264,12 +264,12 @@ const seedDatabase = async () => {
       goals: [
         {
           text: 'Exercise 3 times a week',
-          status: 'completed',
+          status: 'accomplished',
           reflection: 'I actually managed to go 4 times a week! Dedicated morning runs really helped.'
         },
         {
           text: 'Read 2 books',
-          status: 'completed',
+          status: 'accomplished',
           reflection: 'Read "Atomic Habits" and "Deep Work".'
         },
         {
@@ -398,7 +398,7 @@ const seedDatabase = async () => {
       deliveredAt: pastWeek,
       isDelivered: true,
       goals: [
-        { text: 'Write more letters', status: 'completed', reflection: 'I did it!' }
+        { text: 'Write more letters', status: 'accomplished', reflection: 'I did it!' }
       ],
       reflections: [
         {
@@ -460,8 +460,8 @@ const seedDatabase = async () => {
       deliveredAt: pastYear,
       isDelivered: true,
       goals: [
-        { text: 'Continuous learning', status: 'completed', reflection: 'Took 3 courses this year.' },
-        { text: 'Build meaningful relationships', status: 'completed', reflection: 'Made 2 new close friends.' },
+        { text: 'Continuous learning', status: 'accomplished', reflection: 'Took 3 courses this year.' },
+        { text: 'Build meaningful relationships', status: 'accomplished', reflection: 'Made 2 new close friends.' },
         { text: 'Contribute to open source', status: 'abandoned', reflection: 'Did not have time.' }
       ],
       reflections: [
@@ -493,7 +493,7 @@ const seedDatabase = async () => {
       deliveredAt: past6Months,
       isDelivered: true,
       goals: [
-        { text: 'Take a vacation', status: 'completed', reflection: 'Went to Hawaii for 2 weeks!' },
+        { text: 'Take a vacation', status: 'accomplished', reflection: 'Went to Hawaii for 2 weeks!' },
         { text: 'Set work boundaries', status: 'inProgress', reflection: 'Getting better at saying no.' },
         { text: 'Start therapy', status: 'carriedForward', carriedForwardTo: charlieLetter1._id }
       ],
@@ -537,7 +537,7 @@ const seedDatabase = async () => {
       goals: [
         {
           text: 'Launch Project X',
-          status: 'completed',
+          status: 'accomplished',
           reflection: 'Launch went smoother than expected. No critical bugs!'
         },
         {
@@ -606,8 +606,8 @@ const seedDatabase = async () => {
       deliveredAt: pastMonth,
       isDelivered: true,
       goals: [
-        { text: 'Practice gratitude daily', status: 'completed', reflection: 'Kept a gratitude journal.' },
-        { text: 'Disconnect from social media', status: 'completed', reflection: 'Deleted apps for a month.' }
+        { text: 'Practice gratitude daily', status: 'accomplished', reflection: 'Kept a gratitude journal.' },
+        { text: 'Disconnect from social media', status: 'accomplished', reflection: 'Deleted apps for a month.' }
       ],
       reflections: [
         {
@@ -668,8 +668,8 @@ const seedDatabase = async () => {
       deliveredAt: pastMonth,
       isDelivered: true,
       goals: [
-        { text: 'Delegate 2 tasks', status: 'completed', reflection: 'Delegated successfully!' },
-        { text: 'Ask manager for support', status: 'completed', reflection: 'Had a great conversation.' },
+        { text: 'Delegate 2 tasks', status: 'accomplished', reflection: 'Delegated successfully!' },
+        { text: 'Ask manager for support', status: 'accomplished', reflection: 'Had a great conversation.' },
         { text: 'Take a mental health day', status: 'abandoned', reflection: 'Too busy to take time off.' }
       ],
       reflections: [

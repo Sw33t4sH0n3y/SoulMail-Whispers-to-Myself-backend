@@ -162,7 +162,7 @@ const updateGoalStatus = async (userId, letterId, goalId, statusData) => {
 
   const goal = letter.goals.id(goalId);
   if (!goal) {
-    throw new Error('Goal not found');
+    throw new NotFoundError('Goal not found');
   }
   goal.status = statusData.status;
   goal.statusUpdatedAt = new Date();
@@ -173,7 +173,7 @@ const updateGoalStatus = async (userId, letterId, goalId, statusData) => {
   await letter.save();
 
   if (statusData.status === 'accomplished') {
-    await updateUserStatusAfterGoalAccomplished(userId);
+    await updateUserStatsAfterGoalAccomplished(userId);
   }
   return letter;
 };
@@ -191,13 +191,13 @@ const carryGoalForward = async (userId, oldLetterId, goalId, newLetterId) => {
 
   const goal = oldLetter.goals.id(goalId);
   if (!goal) {
-    throw new Error('Goal not found');
+    throw new NotFoundError('Goal not found');
   }
 
   newLetter.goals.push({
     text: goal.text,
     status: 'pending',
-    carriedFowardFrom: oldLetterId
+    carriedForwardFrom: oldLetterId
   });
   await newLetter.save();
 
@@ -218,9 +218,9 @@ const addGoalReflection = async (userId, letterId, goalId, reflection) => {
   verifyUserOwnsLetter(letter, userId);
   ensureLetterIsDelivered(letter);
 
-  const goal =letter.goals.id(goalId);
+  const goal = letter.goals.id(goalId);
   if (!goal) {
-    throw new Error('Goal not found');
+    throw new NotFoundError('Goal not found');
   }
 
   goal.reflection = reflection;
@@ -228,6 +228,37 @@ const addGoalReflection = async (userId, letterId, goalId, reflection) => {
 
   return letter;
 };
+
+/**
+ * ADD OVERLAY DRAWING
+ * User adds a drawing overlay to a delivered letter
+ */
+const addOverlayDrawing = async (userId, letterId, overlayDrawing) => {
+  const letter = await findLetterOrFail(letterId);
+  verifyUserOwnsLetter(letter, userId);
+  ensureLetterIsDelivered(letter);
+
+  letter.overlayDrawing = overlayDrawing;
+  await letter.save();
+
+  return letter;
+};
+
+/**
+ * DELETE DRAWING
+ * User removes drawing or overlay drawing from a letter
+ */
+const deleteDrawing = async (userId, letterId) => {
+  const letter = await findLetterOrFail(letterId);
+  verifyUserOwnsLetter(letter, userId);
+
+  letter.drawing = undefined;
+  letter.overlayDrawing = undefined;
+  await letter.save();
+
+  return letter;
+};
+
 // --- Database Query Helpers ---
 
 /**
@@ -414,7 +445,7 @@ const updateUserStatsAfterLetterCreated = async (userId) => {
 const updateUserStatsAfterReflectionAdded = async (userId) => {
   try {
     await userService.updateUserStats(userId, {
-      incrementsReflections: true
+      incrementReflections: true
     });
   } catch (error) {
     console.error('Failed to update user stats after reflection:', error.message);
@@ -424,7 +455,7 @@ const updateUserStatsAfterReflectionAdded = async (userId) => {
 const updateUserStatsAfterGoalAccomplished = async (userId) => {
   try {
     await userService.updateUserStats(userId, {
-      incrementGoalAccomplished: true
+      incrementGoalsCompleted: true
     });
   } catch (error) {
     console.error('Failed to update user stats after goal accomplished:', error.message);
@@ -454,4 +485,8 @@ module.exports = {
   updateGoalStatus,
   carryGoalForward,
   addGoalReflection,
+
+  // Managing Drawings
+  addOverlayDrawing,
+  deleteDrawing,
 };

@@ -125,10 +125,10 @@ const updateUserStats = async (userId, statUpdates) => {
     updateObj['stats.totalLetters'] = 1;
   }
   if (statUpdates.incrementReflections) {
-    updateObj['stats.totalRefletions'] = 1;
+    updateObj['stats.totalReflections'] = 1;
   }
   if (statUpdates.incrementGoalsCompleted) {
-    updateObj['stats.totalLetters.goalsCompleted'] = 1;
+    updateObj['stats.goalsAccomplished'] = 1;
   }
   if (statUpdates.updateStreak) {
     const user =await User.findById(userId).select('stats');
@@ -204,7 +204,7 @@ const sanitizeSettings = (settings) => {
     'milestoneOomph',
     'anniversaryOomph',
     'letterDeliveryOomph',
-    'goalsAccomplishOomph',
+    'goalAccomplishedOomph',
     'streakOomph'
   ];
 

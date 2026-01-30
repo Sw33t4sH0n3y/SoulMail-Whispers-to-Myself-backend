@@ -26,7 +26,7 @@ const goalSchema = new mongoose. Schema(
     },
     status: {
       type: String,
-      enum: ['pending', 'completed', 'inProgress', 'abandoned', 'carriedForward'],
+      enum: ['pending', 'accomplished', 'inProgress', 'abandoned', 'carriedForward'],
       default: 'pending'
     },
     reflection: {
@@ -115,7 +115,16 @@ const letterSchema = new mongoose.Schema(
     },
 
     goals: [goalSchema],
-    
+
+    drawing: {
+      type: String,
+      trim: true
+    },
+    overlayDrawing: {
+      type: String,
+      trim: true
+    },
+
     deliveryInterval: {
       type: String,
       enum: {
@@ -131,16 +140,25 @@ const letterSchema = new mongoose.Schema(
         validator: function (value) {
           // If we are creating a new letter
           // OR modifying the delivery date (rescheduling),
-          // strict validation applies: Date must be at least 24 hours in the future.
+          // strict validation applies: Date must be at least 1 week in the future.
           if (this.isNew || this.isModified('deliveredAt')) {
-            const tomorrow = new Date();
-            tomorrow.setHours(tomorrow.getHours() + 24);
-            return value >= tomorrow;
+            // Get today's date at midnight UTC
+            const today = new Date();
+            const todayUTC = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+
+            // Add 7 days (in milliseconds)
+            const minDateMs = todayUTC + (7 * 24 * 60 * 60 * 1000);
+
+            // Get the value date at midnight UTC (use UTC getters to avoid timezone shift)
+            const valueDate = new Date(value);
+            const valueDateUTC = Date.UTC(valueDate.getUTCFullYear(), valueDate.getUTCMonth(), valueDate.getUTCDate());
+
+            return valueDateUTC >= minDateMs;
           }
           // If simply updating other fields (like isDelivered status), skip date validation
           return true;
         },
-        message: 'Delivery date must be at least 24 hours in the future.'
+        message: 'Delivery date must be at least one week in the future.'
       }
     },
     isDelivered: {
